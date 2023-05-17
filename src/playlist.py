@@ -14,16 +14,9 @@ class PlayList(Youtube):
                                                           part='contentDetails, snippet',
                                                           maxResults=50,
                                                           ).execute()
-        channel_id = playlist_items["items"][0]["snippet"]["channelId"]
-        playlists = self.youtube.playlists().list(channelId=channel_id,
-                                             part='contentDetails,snippet',
-                                             maxResults=50,
-                                             ).execute()
-        self.title = ""
-        for playlist in playlists['items']:
-            if playlist["id"] == playlist_id:
-                self.title = playlist["snippet"]["title"]
-                break
+        self.title = self.youtube.playlists().list(id=playlist_id,
+                                 part='snippet'
+                                 ).execute()["items"][0]["snippet"]["title"]
 
         video_ids = []
         for video in playlist_items['items']:
